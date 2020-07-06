@@ -15,11 +15,24 @@ import { ServerComponent } from './servers/server/server.component';
 import { ServersService } from './servers/servers.service';
 
 const appRoute: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'servers', component: ServersComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'users/:id/:name', component: UserComponent },
-]
+  { path: '', component: HomeComponent, pathMatch: 'full' },
+  {
+    path: 'servers',
+    component: ServersComponent,
+    children: [
+      { path: ':id', component: ServerComponent },
+      { path: ':id/edit', component: EditServerComponent }
+    ]
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+    children: [
+      { path: ':id/:name', component: UserComponent }
+    ]
+  },
+];
+
 @NgModule({
   declarations: [
     AppComponent,
